@@ -49,7 +49,6 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
-
     private Location        mLastLocation;
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
@@ -125,97 +124,6 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position)
-    {
-        WeatherLog.i("[MainActivity]::[onNavigationDrawerItemSelected]::[" + position + "]");
-                // update the main content by replacing fragments
-        onSectionAttached(position);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        Fragment fragment = null;
-        String tag = "";
-
-        Bundle fragmentBundle = new Bundle();
-        fragmentBundle.putParcelable(WeatherApplication.LOCATION_KEY, mLastLocation);
-
-        switch (position)
-        {
-        case 0:
-            tag = getString(R.string.today);
-            fragment = fragmentManager.findFragmentByTag(tag);
-
-            if (fragment == null)
-            {
-                fragment = new TodayFragment_();
-                fragment.setArguments(fragmentBundle);
-            }
-            break;
-        case 1:
-            tag = getString(R.string.forecast);
-            fragment = fragmentManager.findFragmentByTag(tag);
-
-            if (fragment == null)
-            {
-                fragment = new ForecastFragment_();
-                fragment.setArguments(fragmentBundle);
-            }
-            break;
-        }
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment, tag)
-                .commit();
-    }
-
-    /**
-     * Method to verify google play services on the device
-     */
-    private boolean checkPlayServices()
-    {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS)
-        {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode))
-            {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                                                      PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(),
-                               "Your device is missing Google Play Services. Please install and come back later.", Toast.LENGTH_LONG)
-                        .show();
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
-
-    public void onSectionAttached(int number)
-    {
-        switch (number)
-        {
-        case 0:
-            mTitle = getString(R.string.today);
-            break;
-        case 1:
-            mTitle = getString(R.string.forecast);
-            break;
-        }
-
-        getSupportActionBar().setTitle(mTitle);
-    }
-
-    public void restoreActionBar()
-    {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         if (!mNavigationDrawerFragment.isDrawerOpen())
@@ -268,6 +176,109 @@ public class MainActivity extends ActionBarActivity
         builder.create().show();
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////                                  /////////////////////////////////////////////////////////////
+    /////// N a v i g a t i o n   D r a w e r /////////////////////////////////////////////////////////////
+    ///////                                   /////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void onNavigationDrawerItemSelected(int position)
+    {
+        WeatherLog.i("[MainActivity]::[onNavigationDrawerItemSelected]::[" + position + "]");
+                // update the main content by replacing fragments
+        onSectionAttached(position);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        Fragment fragment = null;
+        String tag = "";
+
+        Bundle fragmentBundle = new Bundle();
+        fragmentBundle.putParcelable(WeatherApplication.LOCATION_KEY, mLastLocation);
+
+        switch (position)
+        {
+        case 0:
+            tag = getString(R.string.today);
+            fragment = fragmentManager.findFragmentByTag(tag);
+
+            if (fragment == null)
+            {
+                fragment = new TodayFragment_();
+                fragment.setArguments(fragmentBundle);
+            }
+            break;
+        case 1:
+            tag = getString(R.string.forecast);
+            fragment = fragmentManager.findFragmentByTag(tag);
+
+            if (fragment == null)
+            {
+                fragment = new ForecastFragment_();
+                fragment.setArguments(fragmentBundle);
+            }
+            break;
+        }
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment, tag)
+                .commit();
+    }
+
+    public void onSectionAttached(int number)
+    {
+        switch (number)
+        {
+        case 0:
+            mTitle = getString(R.string.today);
+            break;
+        case 1:
+            mTitle = getString(R.string.forecast);
+            break;
+        }
+
+        getSupportActionBar().setTitle(mTitle);
+    }
+
+    public void restoreActionBar()
+    {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(mTitle);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////                                  /////////////////////////////////////////////////////////////
+    /////// C o n n e c t i v i t y           /////////////////////////////////////////////////////////////
+    ///////                                   /////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Method to verify google play services on the device
+     */
+    private boolean checkPlayServices()
+    {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS)
+        {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode))
+            {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                                                      PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),
+                               "Your device is missing Google Play Services. Please install and come back later.", Toast.LENGTH_LONG)
+                        .show();
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
     protected synchronized void buildGoogleApiClient()
     {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -310,6 +321,8 @@ public class MainActivity extends ActionBarActivity
         WeatherLog.i("[MainActivity]::[onConnected]::[" + mLastLocation + "]");
 
         broadcastLocation(mLastLocation);
+        //Location updates are not turned on momentarily, but if the line below is uncommented, it should start working right away.
+        //However, location will be retrieved twice right after start.
 //        startLocationUpdates();
     }
 
