@@ -1,0 +1,76 @@
+//  ***************************************************************************
+//
+//  AndroidAnnotation is done by:
+//      http://blog.yageek.net/blog/2014/01/20/android-studio/
+//
+//  ***************************************************************************
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.0.0'
+        // replace with the current version of the android-apt plugin
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
+Properties props = new Properties()
+props.load(new FileInputStream(file('../extras/keystore/weather.properties')))
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+    defaultConfig {
+        applicationId 'com.vandac.weather.android'
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    signingConfigs {
+        release {
+            storeFile file('../extras/keystore/weather.keystore')
+            storePassword props['keystore.store.password']
+            keyAlias props['keystore.key.alias']
+            keyPassword props['keystore.key.password']
+         }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+    }
+}
+
+configurations {
+    apt
+}
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0].processResources.manifestFile
+
+        resourcePackageName 'com.vandac.weather.android'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.google.android.gms:play-services:7.0.0'
+    compile 'org.androidannotations:androidannotations-api:3.0.1'
+    apt 'org.androidannotations:androidannotations:3.0.1'
+    compile 'com.android.support:support-annotations:20.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.3.0'
+}

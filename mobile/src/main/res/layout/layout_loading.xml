@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/loading_overlay"
+                android:background="@color/white_transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <!--<ProgressBar-->
+        <!--android:id="@+id/loading_progressbar"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"/>-->
+
+    <TextView
+        android:id="@+id/loading_txt"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
+
+    <Button
+        android:id="@+id/loading_btn_retry"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/loading_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/refresh"/>
+
+    <ProgressBar
+        android:id="@+id/loading_progressBar"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="50"
+        android:layout_below="@+id/loading_txt"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        />
+
+
+</RelativeLayout>

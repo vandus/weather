@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@null"
+              android:gravity="center_vertical"
+    >
+
+    <ImageView
+        android:id="@+id/nav_drawer_item_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_btn_speak_now"
+        android:layout_marginLeft="@dimen/padding_medium"
+        />
+
+    <TextView
+        style="@style/AppTheme.Text.TextView_NavDrawer"
+        android:id="@+id/navigation_drawer_item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:layout_marginLeft="@dimen/padding_medium"
+        />
+
+</LinearLayout>

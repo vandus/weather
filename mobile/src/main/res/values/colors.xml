@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_accent">#ffc400</color>
+
+    <color name="text_regular">#333333</color>
+    <color name="text_lighter">#484a4f</color>
+    <color name="text_darker">#404040</color>
+
+    <color name="blue_dark">#6684b6</color>
+    <color name="blue_light">#7fa5e3</color>
+    <color name="blue_press">#99b7e9</color>
+
+    <color name="white_transparent">#eeffffff</color>
+    <color name="light_gray">#aab2b2b2</color>
+    
+</resources>
