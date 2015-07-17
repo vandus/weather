@@ -17,7 +17,9 @@ import com.vandac.weather.android.util.WeatherLog;
 import com.vandac.weather.android.util.WeatherUtil;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 /**
@@ -129,5 +131,10 @@ public class ForecastFragment extends LocationAwareFragment
 
             loadingOverlay.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @UiThread
+    public void doSomethingInBackground()
+    {
     }
 }
